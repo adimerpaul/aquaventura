@@ -5,82 +5,28 @@ namespace App\Http\Controllers;
 use App\Models\Card;
 use App\Http\Requests\StoreCardRequest;
 use App\Http\Requests\UpdateCardRequest;
+use Illuminate\Http\Request;
 
-class CardController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+class CardController extends Controller{
+    public function index(){ return Card::orderBy('id', 'desc')->get(); }
+    public function store(Request $request){
+        $existingCard = Card::where('code', $request->code)->first();
+        if($existingCard){
+            return response()->json(['message' => 'Tarjeta ya registrada'], 409);
+        }
+        $card = Card::create($request->all());
+        return Card::find($card->id);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function show($code){ return Card::where('code', $code)->first(); }
+    public function update(Request $request, Card $card){
+        $existingCard = Card::where('code', $request->code)->first();
+        if($existingCard){
+            return response()->json(['message' => 'Tarjeta ya registrada'], 409);
+        }
+        $card->update($request->all());
+        return Card::find($card->id);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreCardRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreCardRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Card  $card
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Card $card)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Card  $card
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Card $card)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateCardRequest  $request
-     * @param  \App\Models\Card  $card
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateCardRequest $request, Card $card)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Card  $card
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Card $card)
-    {
-        //
+    public function destroy(Card $card){
+        return $card->delete();
     }
 }

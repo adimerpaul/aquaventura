@@ -1,13 +1,17 @@
 import MainLayout from 'layouts/MainLayout.vue'
 import IndexPage from 'pages/IndexPage.vue'
 import Login from 'pages/Login.vue'
+import Cards from 'pages/Cards.vue'
+import CardsRegister from 'pages/CardsRegister.vue'
 
 const routes = [
   {
     path: '/',
     component: MainLayout,
     children: [
-      { path: '', component: IndexPage }
+      { path: '', component: IndexPage },
+      { path: 'cards', component: Cards },
+      { path: 'cardsRegister', component: CardsRegister }
     ]
   },
   {

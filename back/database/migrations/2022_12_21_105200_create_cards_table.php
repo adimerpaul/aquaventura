@@ -27,7 +27,7 @@ return new class extends Migration
             $table->integer('amount')->nullable();
             $table->string('type')->nullable();
             $table->string('observation')->nullable();
-            $table->string('photo')->nullable();
+            $table->string('photo')->nullable()->default('avatar.png');
             $table->timestamps();
         });
     }

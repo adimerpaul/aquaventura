@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header>
       <q-toolbar>
         <q-btn
           flat
@@ -11,106 +11,118 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title>
-          Quasar App
+        <q-toolbar-title class="text-bold">
+          {{store.user.name}}
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-icon
+          name="account_circle"
+          size="2em"
+        >
+          <q-menu>
+            <q-list>
+              <q-item clickable>
+                <q-item-section avatar>
+                  <q-icon name="account_circle" />
+                </q-item-section>
+                <q-item-section>Perfil</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item clickable @click="logout">
+                <q-item-section avatar>
+                  <q-icon name="exit_to_app" />
+                </q-item-section>
+                <q-item-section>Salir</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-icon>
       </q-toolbar>
     </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
+    <q-drawer v-model="drawer" show-if-above bordered>
       <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
+        <q-item-label header class="text-bold text-center">
+          Aqua ventura
         </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+        <q-item clickable to="/" exact active-class="bg-primary text-white" >
+          <q-item-section avatar>
+            <q-icon name="o_home" />
+          </q-item-section>
+          <q-item-section>Inicio</q-item-section>
+        </q-item>
+        <q-item clickable to="/cards" exact active-class="bg-primary text-white" >
+          <q-item-section avatar>
+            <q-icon name="o_credit_card" />
+          </q-item-section>
+          <q-item-section>Tarjetas</q-item-section>
+        </q-item>
+        <q-item clickable to="/cardsRegister" exact active-class="bg-primary text-white" >
+          <q-item-section avatar>
+            <q-icon name="o_credit_card" />
+          </q-item-section>
+          <q-item-section>Registrar tarjeta</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
-
     <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
 </template>
-
 <script>
-import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+import { useCounterStore } from 'stores/example-store'
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
-
-export default defineComponent({
-  name: 'MainLayout',
-
-  components: {
-    EssentialLink
-  },
-
-  setup () {
-    const leftDrawerOpen = ref(false)
-
+export default {
+  data () {
     return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      url: process.env.API,
+      drawer: false,
+      store: useCounterStore()
+    }
+  },
+  created () {
+    // console.log(this.url)
+  },
+  methods: {
+    logout () {
+      this.$q.dialog({
+        title: 'Cerrar sesión',
+        message: '¿Está seguro de cerrar sesión?',
+        ok: {
+          push: true,
+          color: 'primary',
+          icon: 'check',
+          label: 'Aceptar'
+        },
+        cancel: {
+          push: true,
+          color: 'negative',
+          icon: 'close'
+        }
+      }).onOk(() => {
+        this.$q.loading.show()
+        this.$api.post('logout').then(() => {
+          this.$q.loading.hide()
+          this.$q.notify({
+            message: 'Sesión cerrada',
+            color: 'positive',
+            icon: 'check_circle',
+            position: 'top'
+          })
+          this.$router.push('/login')
+          this.store.user = {}
+          this.store.token = ''
+          localStorage.removeItem('tokenHospital')
+          this.store.isLoggedIn = false
+          this.$api.defaults.headers.common.Authorization = ''
+        })
+        // this.$store.dispatch('logout')
+        // this.$router.push('/login')
+      })
+    },
+    toggleLeftDrawer () {
+      this.drawer = !this.drawer
     }
   }
-})
+}
 </script>

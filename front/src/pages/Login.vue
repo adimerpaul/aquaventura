@@ -97,7 +97,7 @@ export default {
     //         this.store.user=res.data.user
     //         this.store.isLoggedIn=true
     //         this.$api.defaults.headers.common['Authorization'] = 'Bearer '+res.data.token
-    //         localStorage.setItem('tokenHospital',res.data.token)
+    //         localStorage.setItem('tokenAqua',res.data.token)
     //       }).catch(err => {
     //         console.log({err:err})
     //       }).finally(() => {
@@ -128,7 +128,7 @@ export default {
         this.store.user = res.data.user
         this.store.isLoggedIn = true
         this.$api.defaults.headers.common.Authorization = 'Bearer ' + res.data.token
-        localStorage.setItem('tokenHospital', res.data.token)
+        localStorage.setItem('tokenAqua', res.data.token)
       }).catch(error => {
         console.log(error)
         this.$q.notify({

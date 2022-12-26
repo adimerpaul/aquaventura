@@ -13,7 +13,16 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+//
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', [\App\Http\Controllers\UserController::class,'login']);
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::post('upload/{id}', [\App\Http\Controllers\UploadController::class,'upload']);
+    Route::get('base64/{photo}', [\App\Http\Controllers\UploadController::class,'base64']);
+    Route::post('logout', [\App\Http\Controllers\UserController::class,'logout']);
+    Route::post('me', [\App\Http\Controllers\UserController::class,'me']);
+    Route::apiResource('cards', \App\Http\Controllers\CardController::class);
 });
