@@ -19,10 +19,12 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::post('login', [\App\Http\Controllers\UserController::class,'login']);
+Route::post('upload/{id}', [\App\Http\Controllers\UploadController::class,'upload']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::post('upload/{id}', [\App\Http\Controllers\UploadController::class,'upload']);
     Route::get('base64/{photo}', [\App\Http\Controllers\UploadController::class,'base64']);
     Route::post('logout', [\App\Http\Controllers\UserController::class,'logout']);
     Route::post('me', [\App\Http\Controllers\UserController::class,'me']);
     Route::apiResource('cards', \App\Http\Controllers\CardController::class);
+    Route::apiResource('records', \App\Http\Controllers\RecordController::class);
+
 });

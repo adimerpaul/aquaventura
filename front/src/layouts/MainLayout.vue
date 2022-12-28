@@ -62,6 +62,12 @@
           </q-item-section>
           <q-item-section>Registrar tarjeta</q-item-section>
         </q-item>
+        <q-item clickable to="/history" exact active-class="bg-primary text-white" >
+          <q-item-section avatar>
+            <q-icon name="o_history" />
+          </q-item-section>
+          <q-item-section>Historial de registros</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
     <q-page-container>
