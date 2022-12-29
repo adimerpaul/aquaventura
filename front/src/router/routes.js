@@ -4,6 +4,7 @@ import Login from 'pages/Login.vue'
 import Cards from 'pages/Cards.vue'
 import CardsRegister from 'pages/CardsRegister.vue'
 import History from 'pages/History.vue'
+import Users from 'pages/Users.vue'
 
 const routes = [
   {
@@ -13,7 +14,8 @@ const routes = [
       { path: '', component: IndexPage },
       { path: 'cards', component: Cards },
       { path: 'cardsRegister', component: CardsRegister },
-      { path: 'history', component: History }
+      { path: 'history', component: History },
+      { path: 'users', component: Users }
     ]
   },
   {

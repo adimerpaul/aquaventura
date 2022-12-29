@@ -12,8 +12,9 @@
       </q-form>
     </div>
     <div class="col-2"></div>
-    <div class="col-12">
-      <q-card bordered>
+    <div class="col-3"></div>
+    <div class="col-6">
+      <q-card bordered class="q-mt-xs">
         <q-card-section class="q-pb-none">
           <div class="text-h6">Credencial</div>
         </q-card-section>
@@ -33,6 +34,7 @@
         </q-card-section>
       </q-card>
     </div>
+    <div class="col-3"></div>
   </div>
 </q-page>
 </template>

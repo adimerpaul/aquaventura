@@ -38,6 +38,7 @@ export default boot(({ app, router }) => {
     app.config.globalProperties.$api.defaults.headers.common.Authorization = `Bearer ${token}`
     app.config.globalProperties.$api.post('me').then(res => {
       useCounterStore().user = res.data
+      useCounterStore().permissions = res.data.permissions.map(permission => permission.name)
       useCounterStore().isLoggedIn = true
     }).catch(err => {
       console.log(err)

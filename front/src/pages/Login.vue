@@ -126,6 +126,7 @@ export default {
         })
         this.$router.push('/')
         this.store.user = res.data.user
+        this.store.permissions = res.data.user.permissions.map(permission => permission.name)
         this.store.isLoggedIn = true
         this.$api.defaults.headers.common.Authorization = 'Bearer ' + res.data.token
         localStorage.setItem('tokenAqua', res.data.token)

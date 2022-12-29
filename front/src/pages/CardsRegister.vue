@@ -1,29 +1,29 @@
 <template>
 <q-page class="q-pa-xs">
-  <q-table :rows="cards" dense flat :rows-per-page-options="[20,50,100,0]" :loading="loading" :columns="cardColumns" :filter="filter">
+  <q-table :rows="cards" title="Registro de targetas" dense flat :rows-per-page-options="[20,50,100,0]" :loading="loading" :columns="cardColumns" :filter="filter">
     <template v-slot:body-cell-actions="props">
       <q-td :props="props" auto-width>
         <q-btn-dropdown label="Opciones" no-caps dense color="primary">
           <q-list>
-            <q-item clickable v-close-popup @click="cardsEdit(props.row)">
+            <q-item v-if="store.permissions.includes('Editar targeta')" clickable v-close-popup @click="cardsEdit(props.row)">
               <q-item-section avatar>
                 <q-icon name="o_edit" />
               </q-item-section>
               <q-item-section>Modificar</q-item-section>
             </q-item>
-            <q-item clickable v-close-popup @click="cardsDelete(props.row)">
+            <q-item v-if="store.permissions.includes('Eliminar targeta')" clickable v-close-popup @click="cardsDelete(props.row)">
               <q-item-section avatar>
                 <q-icon name="o_delete" />
               </q-item-section>
               <q-item-section>Eliminar</q-item-section>
             </q-item>
-            <q-item clickable v-close-popup @click="cardsPhoto(props.row)">
+            <q-item v-if="store.permissions.includes('Subir foto')" clickable v-close-popup @click="cardsPhoto(props.row)">
               <q-item-section avatar>
                 <q-icon name="o_photo_camera" />
               </q-item-section>
               <q-item-section>Foto</q-item-section>
             </q-item>
-            <q-item clickable v-close-popup @click="cardsCard(props.row)">
+            <q-item v-if="store.permissions.includes('Imprimir tarjeta')" clickable v-close-popup @click="cardsCard(props.row)">
               <q-item-section avatar>
                 <q-icon name="credit_card" />
               </q-item-section>
@@ -41,7 +41,7 @@
     <template v-slot:top-right>
       <div class="row">
         <div class="col-4 flex flex-center">
-          <q-btn @click="cardsAdd" color="primary" icon="add_circle_outline" dense label="Registrar" no-caps :loading="loading" />
+          <q-btn @click="cardsAdd" color="primary" icon="add_circle_outline" dense label="Registrar" v-if="store.permissions.includes('Crear targeta')" no-caps :loading="loading" />
         </div>
         <div class="col-1 flex flex-center">
           <q-btn @click="cardsGet" icon="refresh" flat no-caps dense :loading="loading" />
@@ -141,10 +141,12 @@
 <script>
 import moment from 'moment'
 import { jsPDF } from 'jspdf'
+import { useCounterStore } from 'stores/example-store'
 export default {
   name: 'CardsRegisterItem',
   data () {
     return {
+      store: useCounterStore(),
       url: process.env.API,
       PDF: jsPDF,
       schedules: [

@@ -50,23 +50,35 @@
           </q-item-section>
           <q-item-section>Inicio</q-item-section>
         </q-item>
-        <q-item clickable to="/cards" exact active-class="bg-primary text-white" >
+        <q-item clickable to="/cards" v-if="store.permissions.includes('Revisar tarjeta')" active-class="bg-primary text-white">
           <q-item-section avatar>
             <q-icon name="o_credit_card" />
           </q-item-section>
-          <q-item-section>Tarjetas</q-item-section>
+          <q-item-section>Revisar tarjetas</q-item-section>
         </q-item>
-        <q-item clickable to="/cardsRegister" exact active-class="bg-primary text-white" >
+        <q-item clickable to="/cardsRegister" v-if="store.permissions.includes('Crear targeta')||store.permissions.includes('Editar targeta')||store.permissions.includes('Eliminar targeta')||store.permissions.includes('Subir foto')||store.permissions.includes('Imprimir tarjeta')" exact active-class="bg-primary text-white" >
           <q-item-section avatar>
             <q-icon name="o_credit_card" />
           </q-item-section>
           <q-item-section>Registrar tarjeta</q-item-section>
         </q-item>
-        <q-item clickable to="/history" exact active-class="bg-primary text-white" >
+        <q-item clickable to="/history" v-if="store.permissions.includes('Consultar registos')||store.permissions.includes('Descargar registros')" exact active-class="bg-primary text-white" >
           <q-item-section avatar>
             <q-icon name="o_history" />
           </q-item-section>
           <q-item-section>Historial de registros</q-item-section>
+        </q-item>
+        <q-item clickable to="/users" v-if="store.permissions.includes('Crear usuario')||store.permissions.includes('Editar  usuario')||store.permissions.includes('Eliminar  usuario')" exact active-class="bg-primary text-white" >
+          <q-item-section avatar>
+            <q-icon name="o_people" />
+          </q-item-section>
+          <q-item-section>Usuarios</q-item-section>
+        </q-item>
+        <q-item clickable @click="logout" exact active-class="bg-primary text-white" >
+          <q-item-section avatar>
+            <q-icon name="o_exit_to_app" />
+          </q-item-section>
+          <q-item-section>Salir</q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
