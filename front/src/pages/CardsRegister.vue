@@ -40,13 +40,17 @@
     </template>
     <template v-slot:top-right>
       <div class="row">
+        <div class="col-1 flex flex-center">
+          <q-btn @click="exportTable" icon="download" dense no-caps :loading="loading" color="info"/>
+        </div>
         <div class="col-4 flex flex-center">
           <q-btn @click="cardsAdd" color="primary" icon="add_circle_outline" dense label="Registrar" v-if="store.permissions.includes('Crear targeta')" no-caps :loading="loading" />
         </div>
         <div class="col-1 flex flex-center">
           <q-btn @click="cardsGet" icon="refresh" flat no-caps dense :loading="loading" />
         </div>
-        <div class="col-7 flex flex-center">
+
+        <div class="col-6 flex flex-center">
           <q-input dense outlined v-model="filter" label="Buscar" clearable>
             <template v-slot:append>
               <q-icon name="search" />
@@ -154,6 +158,8 @@
 import moment from 'moment'
 import { jsPDF } from 'jspdf'
 import { useCounterStore } from 'stores/example-store'
+import xlsx from 'json-as-xlsx'
+
 export default {
   name: 'CardsRegisterItem',
   data () {
@@ -189,6 +195,36 @@ export default {
     this.cardsGet()
   },
   methods: {
+    exportTable () {
+      const datacaja = [
+        {
+          sheet: 'Registro',
+          columns: [
+            { label: 'NUMERO', value: 'number' }, // Top level data
+            { label: 'FECHA', value: 'dateIni' }, // Top level data
+            { label: 'CODIGO TARJ', value: 'codeTarget' }, // Top level data
+            { label: 'NOMBRE', value: 'name' }, // Top level data
+            { label: 'EDAD', value: 'age' }, // Top level data
+            { label: 'FEC NAC', value: 'birthday' }, // Top level data
+            { label: 'DIAS', value: 'days' }, // Top level data
+            { label: 'TELEFONO', value: 'phone' }, // Top level data
+            { label: 'HORARIO', value: 'schedule' }, // Top level data
+            { label: 'MONTO', value: 'amount' } // Top level data
+
+          ],
+          content: this.cards
+        }
+
+      ]
+
+      const settings = {
+        fileName: 'CajaChica', // Name of the resulting spreadsheet
+        extraLength: 5, // A bigger number means that columns will be wider
+        writeOptions: {} // Style options from https://github.com/SheetJS/sheetjs#writing-options
+      }
+
+      xlsx(datacaja, settings) // Will download the excel file
+    },
     finishFn (file) {
       this.cardsGet()
       this.cardDialogPhoto = false
