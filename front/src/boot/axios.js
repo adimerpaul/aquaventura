@@ -35,7 +35,16 @@ export default boot(({ app, router }) => {
     '09:00-10:00',
     '10:00-11:00',
     '11:00-12:00',
-    '12:00-13:00'
+    '12:00-13:00',
+    '13:00-14:00',
+    '14:00-15:00',
+    '15:00-16:00',
+    '16:00-17:00',
+    '17:00-18:00',
+    '18:00-19:00',
+    '19:00-20:00',
+    '20:00-21:00',
+    '21:00-22:00'
   ]
   app.config.globalProperties.$axios = axios
   // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)

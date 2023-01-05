@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('records', \App\Http\Controllers\RecordController::class);
     Route::post('history', [\App\Http\Controllers\RecordController::class,'history']);
     Route::post('query', [\App\Http\Controllers\RecordController::class,'query']);
+    Route::post('queries', [\App\Http\Controllers\RecordController::class,'queries']);
     Route::apiResource('users', \App\Http\Controllers\UserController::class);
     Route::put('updatePassword/{user}', [\App\Http\Controllers\UserController::class,'updatePassword']);
     Route::apiResource('permissions', \App\Http\Controllers\PermissionController::class);

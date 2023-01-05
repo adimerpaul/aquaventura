@@ -167,7 +167,7 @@ export default {
       store: useCounterStore(),
       url: process.env.API,
       PDF: jsPDF,
-      schedules: this.$filters.schedules,
+      schedules: this.$schedules,
       cardColumns: [
         { name: 'actions', label: 'Acciones', field: 'actions', align: 'left', sortable: true },
         { name: 'photo', label: 'Foto', field: 'photo', align: 'left', sortable: true },
@@ -180,7 +180,9 @@ export default {
         { name: 'days', label: 'Días', field: 'days', align: 'left', sortable: true },
         { name: 'phone', label: 'Teléfono/Celular', field: 'phone', align: 'left', sortable: true },
         { name: 'schedule', label: 'Horario', field: 'schedule', align: 'left', sortable: true },
-        { name: 'amount', label: 'Monto', field: 'amount', align: 'left', sortable: true }
+        { name: 'amount', label: 'Monto', field: 'amount', align: 'left', sortable: true },
+        { name: 'observation', label: 'Observación', field: 'observation', align: 'left', sortable: true },
+        { name: 'code', label: 'Código', field: 'code', align: 'left', sortable: true }
       ],
       cardDialog: false,
       cardDialogPhoto: false,
@@ -204,7 +206,7 @@ export default {
             { label: 'FECHA', value: 'dateIni' }, // Top level data
             { label: 'CODIGO TARJ', value: 'codeTarget' }, // Top level data
             { label: 'NOMBRE', value: 'name' }, // Top level data
-            { label: 'EDAD', value: 'age' }, // Top level data
+            { label: 'EDAD', value: row => this.ageCalculate(row.birthday) }, // Top level data
             { label: 'FEC NAC', value: 'birthday' }, // Top level data
             { label: 'DIAS', value: 'days' }, // Top level data
             { label: 'TELEFONO', value: 'phone' }, // Top level data

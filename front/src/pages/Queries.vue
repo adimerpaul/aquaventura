@@ -13,6 +13,24 @@
     <div class="col-6 col-md-3 flex flex-center">
       <q-btn color="primary" :loading="loading" label="Consultar" icon="search" @click="queriesGet" />
     </div>
+    <div class="col-12" v-for="q in queries" :key="q.id">
+      <q-card class="q-mt-none">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-subtitle2">{{ q.date }} {{ q.name }} <span class="text-caption">{{ q.type }} {{ q.days }} {{ q.schedule }}</span></div>
+          <q-space />
+          {{ q.codeTarget }}
+        </q-card-section>
+        <q-card-section class="q-pt-none">
+          <template  v-for="(r,i) in q.records" :key="`${i}C${r.id}`">
+            <q-chip text-color="white" :color="r.record?'green':'red'" dense>
+              {{ r.datedmY }}
+              <q-badge rounded floating>{{r.day.substr(0,1)}}</q-badge>
+            </q-chip>
+          </template>
+        </q-card-section>
+      </q-card>
+    </div>
+<!--    <pre>{{queries}}</pre>-->
   </div>
 </q-page>
 </template>
@@ -29,37 +47,39 @@ export default {
       dateWeekIni: moment().startOf('week').add(1, 'days').format('YYYY-MM-DD'),
       dateWeekEnd: moment().endOf('week').add(1, 'days').format('YYYY-MM-DD'),
       store: useCounterStore(),
-      schedule: '06:00 - 07:00',
-      schedules: [
-        '06:00 - 07:00',
-        '07:00 - 08:00',
-        '08:00 - 09:00',
-        '09:00 - 10:00',
-        '10:00 - 11:00',
-        '11:00 - 12:00',
-        '12:00 - 13:00',
-        '13:00 - 14:00',
-        '14:00 - 15:00',
-        '15:00 - 16:00',
-        '16:00 - 17:00',
-        '17:00 - 18:00',
-        '18:00 - 19:00',
-        '19:00 - 20:00',
-        '20:00 - 21:00',
-        '21:00 - 22:00'
-      ]
+      schedule: '06:00-07:00',
+      schedules: this.$schedules,
+      queries: []
     }
+  },
+  mounted () {
+    this.queriesGet()
   },
   methods: {
     queriesGet () {
       this.loading = true
-      this.store.queriesGet(this.dateWeekIni, this.dateWeekEnd, this.schedule)
-        .then(() => {
-          this.loading = false
+      this.$api.post('queries', {
+        dateIni: this.dateWeekIni,
+        dateEnd: this.dateWeekEnd,
+        schedule: this.schedule
+      }).then((response) => {
+        this.loading = false
+        this.queries = response.data
+        this.$q.notify({
+          message: 'Consulta realizada',
+          color: 'positive',
+          icon: 'check',
+          position: 'top'
         })
-        .catch(() => {
-          this.loading = false
+      }).catch((error) => {
+        this.loading = false
+        this.$q.notify({
+          message: error.response.data.message,
+          color: 'negative',
+          icon: 'close',
+          position: 'top'
         })
+      })
     }
   }
 }
