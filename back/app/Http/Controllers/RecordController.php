@@ -30,7 +30,10 @@ class RecordController extends Controller{
             'schedule' => $schedule
         ];
     }
-    public function store(Request $request){ return Record::create($request->all()); }
+    public function store(Request $request){
+
+        return Record::create($request->all());
+    }
     public function update(Request $request, Record $record){ $record->update($request->all()); return $record; }
     public function destroy(Record $record){ $record->delete(); return $record; }
 }

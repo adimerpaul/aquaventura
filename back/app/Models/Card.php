@@ -23,6 +23,7 @@ class Card extends Model
         'observation',
         'days',
         'number',
+        'date',
         'photo',
     ];
 }

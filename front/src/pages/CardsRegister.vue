@@ -87,10 +87,13 @@
             <div class="col-12 col-md-6">
               <q-select dense outlined v-model="card.days" label="Días" hint="" :options="days" />
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
+              <q-input dense outlined v-model="card.date" label="Fecha de registro" hint="" type="date" />
+            </div>
+            <div class="col-12 col-md-4">
               <q-input dense outlined v-model="card.dateIni" label="Fecha de inicio" hint="" type="date" />
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
               <q-input dense outlined v-model="card.dateEnd" label="Fecha de fin" hint="" type="date" />
             </div>
             <div class="col-12 col-md-4">
@@ -158,28 +161,11 @@ export default {
       store: useCounterStore(),
       url: process.env.API,
       PDF: jsPDF,
-      schedules: [
-        '06:00 - 07:00',
-        '07:00 - 08:00',
-        '08:00 - 09:00',
-        '09:00 - 10:00',
-        '10:00 - 11:00',
-        '11:00 - 12:00',
-        '12:00 - 13:00',
-        '13:00 - 14:00',
-        '14:00 - 15:00',
-        '15:00 - 16:00',
-        '16:00 - 17:00',
-        '17:00 - 18:00',
-        '18:00 - 19:00',
-        '19:00 - 20:00',
-        '20:00 - 21:00',
-        '21:00 - 22:00'
-      ],
+      schedules: this.$filters.schedules,
       cardColumns: [
         { name: 'actions', label: 'Acciones', field: 'actions', align: 'left', sortable: true },
         { name: 'photo', label: 'Foto', field: 'photo', align: 'left', sortable: true },
-        { name: 'dateIni', label: 'Fecha de inicio', field: 'dateIni', align: 'left', sortable: true },
+        { name: 'date', label: 'Fecha', field: 'date', align: 'left', sortable: true },
         { name: 'number', label: 'Número', field: 'number', align: 'left', sortable: true },
         { name: 'codeTarget', label: 'Código de tarjeta', field: 'codeTarget', align: 'left', sortable: true },
         { name: 'name', label: 'Nombre', field: 'name', align: 'left', sortable: true },
@@ -330,6 +316,7 @@ export default {
       this.card = {
         ci: '',
         code: '',
+        date: moment().format('YYYY-MM-DD'),
         dateIni: moment().format('YYYY-MM-DD'),
         dateEnd: moment().add(1, 'month').format('YYYY-MM-DD'),
         codeTarget: '',

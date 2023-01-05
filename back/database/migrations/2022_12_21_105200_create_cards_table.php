@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('ci')->nullable();
             $table->string('code')->nullable();
             $table->date('dateIni')->nullable();
+            $table->date('date')->nullable();
             $table->date('dateEnd')->nullable();
             $table->string('codeTarget')->nullable();
             $table->string('name')->nullable();

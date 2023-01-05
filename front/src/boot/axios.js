@@ -26,8 +26,18 @@ export default boot(({ app, router }) => {
     age: (value) => {
       const years = moment().diff(value, 'years')
       return ` ${years} años`
-    }
+    },
   }
+  app.config.globalProperties.$schedules = [
+    '06:00-07:00',
+    '07:00-08:00',
+    '08:00-09:00',
+    '09:00-10:00',
+    '10:00-11:00',
+    '11:00-12:00',
+    '12:00-13:00',
+    
+  ]
   app.config.globalProperties.$axios = axios
   // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
   //       so you won't necessarily have to import axios in each vue file

@@ -52,7 +52,7 @@
         </q-item>
         <q-item clickable to="/cardsRegister" v-if="store.permissions.includes('Crear targeta')||store.permissions.includes('Editar targeta')||store.permissions.includes('Eliminar targeta')||store.permissions.includes('Subir foto')||store.permissions.includes('Imprimir tarjeta')" exact active-class="bg-primary text-white" >
           <q-item-section avatar>
-            <q-icon name="o_credit_card" />
+            <q-icon name="add_circle_outline" />
           </q-item-section>
           <q-item-section>Registrar tarjeta</q-item-section>
         </q-item>
@@ -61,6 +61,12 @@
             <q-icon name="o_credit_card" />
           </q-item-section>
           <q-item-section>Revisar tarjetas</q-item-section>
+        </q-item>
+        <q-item clickable to="/queries" v-if="store.permissions.includes('Revisar tarjeta')" active-class="bg-primary text-white">
+          <q-item-section avatar>
+            <q-icon name="o_search" />
+          </q-item-section>
+          <q-item-section>Consultas</q-item-section>
         </q-item>
         <q-item clickable to="/history" v-if="store.permissions.includes('Consultar registos')||store.permissions.includes('Descargar registros')" exact active-class="bg-primary text-white" >
           <q-item-section avatar>

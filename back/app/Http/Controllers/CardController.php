@@ -46,6 +46,7 @@ class CardController extends Controller
         if($record){
             return response()->json(['message' => 'Tarjeta ya registrada'], 409);
         }
+        $card = Card::where('code', $code)->first();
         $record = new Record();
         $record->ci=$card->ci;
         $record->code=$card->code;
@@ -61,6 +62,7 @@ class CardController extends Controller
         $record->observation='';
         $record->date=date('Y-m-d');
         $record->time=date('H:i:s');
+        $record->card_id=$card->id;
         $record->save();
         return $card;
     }
