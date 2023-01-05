@@ -74,4 +74,5 @@ class CardController extends Controller
     public function destroy(Card $card){
         return $card->delete();
     }
+
 }

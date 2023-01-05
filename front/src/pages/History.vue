@@ -244,6 +244,7 @@ export default {
         dateIni: this.dateIni,
         dateEnd: this.dateEnd
       }).then((response) => {
+        console.log(response.data)
         this.records = response.data
       }).catch((error) => {
         this.$q.notify({
