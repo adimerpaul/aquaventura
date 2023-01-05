@@ -72,17 +72,26 @@
             <div class="col-12 col-md-8">
               <q-input dense outlined v-model="card.name" label="Nombre Completo" hint="" required />
             </div>
+            <div class="col-12 col-md-4">
+              <q-input dense outlined v-model="card.codeTarget" label="Código de tarjeta" hint="" required />
+            </div>
+            <div class="col-12 col-md-4">
+              <q-input dense outlined v-model="card.birthday" label="Fecha de nacimiento" hint="" type="date" />
+            </div>
+            <div class="col-12 col-md-4">
+              <q-input dense outlined v-model="age" label="Edad" hint="" readonly />
+            </div>
+            <div class="col-12 col-md-6">
+              <q-select dense outlined v-model="card.type" label="Tipo" hint="" :options="['REGULARES','VACACIONES']"/>
+            </div>
+            <div class="col-12 col-md-6">
+              <q-select dense outlined v-model="card.days" label="Días" hint="" :options="days" />
+            </div>
             <div class="col-12 col-md-6">
               <q-input dense outlined v-model="card.dateIni" label="Fecha de inicio" hint="" type="date" />
             </div>
             <div class="col-12 col-md-6">
               <q-input dense outlined v-model="card.dateEnd" label="Fecha de fin" hint="" type="date" />
-            </div>
-            <div class="col-12 col-md-6">
-              <q-input dense outlined v-model="card.codeTarget" label="Código de tarjeta" hint="" required />
-            </div>
-            <div class="col-12 col-md-6">
-              <q-input dense outlined v-model="card.birthday" label="Fecha de nacimiento" hint="" type="date" />
             </div>
             <div class="col-12 col-md-4">
               <q-input dense outlined v-model="card.phone" label="Teléfono/Celular" hint="" required />
@@ -91,7 +100,7 @@
               <q-select dense outlined v-model="card.schedule" label="Horario" hint="" :options="schedules" required />
             </div>
             <div class="col-12 col-md-4">
-              <q-select dense outlined v-model="card.type" label="Tipo" hint="" :options="['REGULARES','VACACIONES']"/>
+              <q-input mask="#" reverse-fill-mask dense outlined v-model="card.amount" label="Monto" hint=""  required />
             </div>
             <div class="col-12 col-md-6">
               <q-input dense outlined v-model="card.observation" label="Observación" hint="" type="textarea" />
@@ -156,16 +165,30 @@ export default {
         '09:00 - 10:00',
         '10:00 - 11:00',
         '11:00 - 12:00',
-        '12:00 - 13:00'
+        '12:00 - 13:00',
+        '13:00 - 14:00',
+        '14:00 - 15:00',
+        '15:00 - 16:00',
+        '16:00 - 17:00',
+        '17:00 - 18:00',
+        '18:00 - 19:00',
+        '19:00 - 20:00',
+        '20:00 - 21:00',
+        '21:00 - 22:00'
       ],
       cardColumns: [
         { name: 'actions', label: 'Acciones', field: 'actions', align: 'left', sortable: true },
         { name: 'photo', label: 'Foto', field: 'photo', align: 'left', sortable: true },
-        { name: 'name', label: 'Nombre', field: 'name', align: 'left', sortable: true },
         { name: 'dateIni', label: 'Fecha de inicio', field: 'dateIni', align: 'left', sortable: true },
-        { name: 'dateEnd', label: 'Fecha de fin', field: 'dateEnd', align: 'left', sortable: true },
-        { name: 'code', label: 'Código', field: 'code', align: 'left', sortable: true },
-        { name: 'codeTarget', label: 'Código de tarjeta', field: 'codeTarget', align: 'left', sortable: true }
+        { name: 'number', label: 'Número', field: 'number', align: 'left', sortable: true },
+        { name: 'codeTarget', label: 'Código de tarjeta', field: 'codeTarget', align: 'left', sortable: true },
+        { name: 'name', label: 'Nombre', field: 'name', align: 'left', sortable: true },
+        { name: 'age', label: 'Edad', field: row => this.ageCalculate(row.birthday), align: 'left', sortable: true },
+        { name: 'birthday', label: 'Fecha de nacimiento', field: 'birthday', align: 'left', sortable: true },
+        { name: 'days', label: 'Días', field: 'days', align: 'left', sortable: true },
+        { name: 'phone', label: 'Teléfono/Celular', field: 'phone', align: 'left', sortable: true },
+        { name: 'schedule', label: 'Horario', field: 'schedule', align: 'left', sortable: true },
+        { name: 'amount', label: 'Monto', field: 'amount', align: 'left', sortable: true }
       ],
       cardDialog: false,
       cardDialogPhoto: false,
@@ -196,7 +219,7 @@ export default {
       }
       this.loading = true
       if (this.cardCreate) {
-        this.$api.post('/cards', this.card)
+        this.$api.post('cards', this.card)
           .then(response => {
             this.cards.unshift(response.data)
             this.cardDialog = false
@@ -212,7 +235,7 @@ export default {
             })
           })
       } else {
-        this.$api.put('/cards/' + this.card.id, this.card)
+        this.$api.put('cards/' + this.card.id, this.card)
           .then(response => {
             this.cards.splice(this.cards.findIndex(item => item.id === this.card.id), 1, response.data)
             this.cardDialog = false
@@ -279,7 +302,7 @@ export default {
         persistent: true
       }).onOk(() => {
         this.loading = true
-        this.$api.delete('/cards/' + card.id)
+        this.$api.delete('cards/' + card.id)
           .then(response => {
             this.cards.splice(this.cards.indexOf(card), 1)
             this.$q.notify({
@@ -308,16 +331,22 @@ export default {
         ci: '',
         code: '',
         dateIni: moment().format('YYYY-MM-DD'),
-        dateEnd: moment().format('YYYY-MM-DD'),
+        dateEnd: moment().add(1, 'month').format('YYYY-MM-DD'),
         codeTarget: '',
         name: '',
-        birthday: moment().format('YYYY-MM-DD'),
+        birthday: '2000-01-01',
         phone: '',
         schedule: '',
         amount: '',
         type: 'REGULARES',
         observation: ''
       }
+      this.$api.get('maxTarget').then(response => {
+        this.card.codeTarget = response.data
+      })
+    },
+    ageCalculate (birthday) {
+      return moment().diff(birthday, 'years')
     },
     cardsGet () {
       this.loading = true
@@ -333,6 +362,20 @@ export default {
       }).finally(() => {
         this.loading = false
       })
+    }
+  },
+  computed: {
+    age () {
+      return moment().diff(this.card.birthday, 'years')
+    },
+    days () {
+      if (this.card.type === 'REGULARES') {
+        // this.card.days = 'LUNES-MIERCOLES'
+        return ['LUNES-MIERCOLES', 'MARTE-JUEVES']
+      } else {
+        // this.card.days = 'MARTES-VIERNES'
+        return ['MARTES-VIERNES']
+      }
     }
   }
 }

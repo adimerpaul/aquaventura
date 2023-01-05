@@ -29,6 +29,8 @@ return new class extends Migration
             $table->string('observation')->nullable();
             $table->date('date')->nullable();
             $table->time('time')->nullable();
+            $table->string('days')->nullable();
+            $table->foreignId('card_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

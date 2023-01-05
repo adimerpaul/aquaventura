@@ -50,6 +50,11 @@ export default {
   components: {
     apexcharts: VueApexCharts
   },
+  created () {
+    if (!this.store.isLoggedIn) {
+      this.$router.push('/login')
+    }
+  },
   mounted () {
     this.query()
   },
@@ -77,7 +82,7 @@ export default {
             id: 'basic-bar'
           },
           xaxis: {
-            categories: categories
+            categories
           }
         }
         this.series = [{
@@ -88,7 +93,7 @@ export default {
           chart: {
             type: 'donut'
           },
-          labels: labels
+          labels
         }
         this.series1 = series1
       }).catch(err => {

@@ -26,7 +26,9 @@ return new class extends Migration
             $table->string('schedule')->nullable();
             $table->integer('amount')->nullable();
             $table->string('type')->nullable();
+            $table->integer('number')->nullable();
             $table->string('observation')->nullable();
+            $table->string('days')->nullable();
             $table->string('photo')->nullable()->default('avatar.png');
             $table->timestamps();
         });

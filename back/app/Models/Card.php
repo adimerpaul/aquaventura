@@ -21,6 +21,8 @@ class Card extends Model
         'amount',
         'type',
         'observation',
+        'days',
+        'number',
         'photo',
     ];
 }

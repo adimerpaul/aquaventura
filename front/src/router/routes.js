@@ -11,11 +11,11 @@ const routes = [
     path: '/',
     component: MainLayout,
     children: [
-      { path: '', component: IndexPage },
-      { path: 'cards', component: Cards },
-      { path: 'cardsRegister', component: CardsRegister },
-      { path: 'history', component: History },
-      { path: 'users', component: Users }
+      { path: '', component: IndexPage, meta: { requiresAuth: true } },
+      { path: 'cards', component: Cards, meta: { requiresAuth: true } },
+      { path: 'cardsRegister', component: CardsRegister, meta: { requiresAuth: true } },
+      { path: 'history', component: History, meta: { requiresAuth: true } },
+      { path: 'users', component: Users, meta: { requiresAuth: true } }
     ]
   },
   {

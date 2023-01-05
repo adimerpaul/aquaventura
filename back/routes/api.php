@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('logout', [\App\Http\Controllers\UserController::class,'logout']);
     Route::post('me', [\App\Http\Controllers\UserController::class,'me']);
     Route::apiResource('cards', \App\Http\Controllers\CardController::class);
+    Route::get('maxTarget', [\App\Http\Controllers\CardController::class,'maxTarget']);
     Route::apiResource('records', \App\Http\Controllers\RecordController::class);
     Route::post('history', [\App\Http\Controllers\RecordController::class,'history']);
     Route::post('query', [\App\Http\Controllers\RecordController::class,'query']);

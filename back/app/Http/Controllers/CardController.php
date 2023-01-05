@@ -8,15 +8,28 @@ use App\Http\Requests\UpdateCardRequest;
 use App\Models\Record;
 use Illuminate\Http\Request;
 
-class CardController extends Controller{
-    public function index(){ return Card::orderBy('id', 'desc')->get(); }
-    public function store(Request $request){
+class CardController extends Controller
+{
+    public function index()
+    {
+        return Card::orderBy('id', 'desc')->get();
+    }
+
+    public function store(Request $request)
+    {
         $existingCard = Card::where('code', $request->code)->first();
-        if($existingCard){
+        if ($existingCard) {
             return response()->json(['message' => 'Tarjeta ya registrada'], 409);
         }
+        $number = Card::whereDate('created_at', date('Y-m-d'))->count() + 1;
+        $request['number'] = $number;
         $card = Card::create($request->all());
         return Card::find($card->id);
+    }
+    public function maxTarget()
+    {
+        $maxTarget = Card::max('codeTarget');
+        return $maxTarget+1;
     }
     public function show($code){
         $card = Card::where('code', $code)->first();

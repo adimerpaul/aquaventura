@@ -27,21 +27,21 @@
                     <div class="col-12 q-pt-xs">
                       <q-btn size="22px" :loading="loading" class="full-width bold" color="primary" label="Iniciar Sesión" type="submit" no-caps />
                     </div>
-                    <div class="col-12 q-pt-xs">
-                      <q-btn to="/signup" size="22px" outline class="full-width bold" color="primary" label="Registrate" type="submit" no-caps />
-                    </div>
+<!--                    <div class="col-12 q-pt-xs">-->
+<!--                      <q-btn to="/signup" size="22px" outline class="full-width bold" color="primary" label="Registrate" type="submit" no-caps />-->
+<!--                    </div>-->
                     <div class="col-12 text-center q-py-none">
                       <a href="" class="text-blue-8 ">¿Olvidaste tu contraseña?</a>
                     </div>
                     <div class="col-12 text-center q-py-none text-caption">
                       <div class="linea"><span>O INICIAR SESIÓN CON</span></div>
                     </div>
-                    <div class="col-6 q-pt-md q-pr-xs">
-                      <q-btn outline icon="fa-brands fa-facebook" color="primary" class="full-width "/>
-                    </div>
-                    <div class="col-6 q-pt-md q-pl-xs">
-                      <q-btn outline  icon="fa-brands fa-google" color="primary" class="full-width "/>
-                    </div>
+<!--                    <div class="col-6 q-pt-md q-pr-xs">-->
+<!--                      <q-btn outline icon="fa-brands fa-facebook" color="primary" class="full-width "/>-->
+<!--                    </div>-->
+<!--                    <div class="col-6 q-pt-md q-pl-xs">-->
+<!--                      <q-btn outline  icon="fa-brands fa-google" color="primary" class="full-width "/>-->
+<!--                    </div>-->
                   </div>
                 </q-form>
               </q-card-section>
