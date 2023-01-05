@@ -41,7 +41,10 @@
     <template v-slot:top-right>
       <div class="row">
         <div class="col-1 flex flex-center">
-          <q-btn @click="exportTable" icon="download" dense no-caps :loading="loading" color="info"/>
+          <q-btn @click="print" icon="print" dense no-caps :loading="loading" color="info"/>
+        </div>
+        <div class="col-1 flex flex-center">
+          <q-btn @click="exportTable" icon="download" dense no-caps :loading="loading" color="accent"/>
         </div>
         <div class="col-4 flex flex-center">
           <q-btn @click="cardsAdd" color="primary" icon="add_circle_outline" dense label="Registrar" v-if="store.permissions.includes('Crear targeta')" no-caps :loading="loading" />
@@ -50,7 +53,7 @@
           <q-btn @click="cardsGet" icon="refresh" flat no-caps dense :loading="loading" />
         </div>
 
-        <div class="col-6 flex flex-center">
+        <div class="col-5 flex flex-center">
           <q-input dense outlined v-model="filter" label="Buscar" clearable>
             <template v-slot:append>
               <q-icon name="search" />
@@ -197,6 +200,21 @@ export default {
     this.cardsGet()
   },
   methods: {
+    print () {
+      let cadena = '<style>table{width: 100%;border-collapse: collapse;} *{font-size:12px;} table, th, td {  border: 1px solid;}</style>'
+      cadena = cadena + '<div>LISTADO DE REGISTRO AQUAVENTURA</div>'
+      cadena = cadena + '<table><tr><th>FECHA</th><th>No</th><th>TARJETA No</th><th>NOMBRE COMPLETO</th><th>EDAD</th><th>CELULAR</th><th>HORARIO</th><th>DIAS</th><th>MONTO</th><th>OBSERVACIONES</th></tr>'
+      this.cards.forEach(d => {
+        if (d.observation == null) d.observation = ''
+        cadena = cadena + '<tr><td>' + d.date + '</td><td>' + d.number + '</td><td>' + d.codeTarget + '</td><td>' + d.name + '</td><td>' + this.ageCalculate(d.birthday) + '</td><td>' + d.phone + '</td><td>' + d.schedule + '</td><td>' + d.days + '</td><td>' + d.amount + '</td><td>' + d.observation + '</td></tr>'
+      })
+      cadena = cadena + '</table>'
+      const myWindow = window.open('', 'Imprimir', 'width=1000,height=1000')
+      myWindow.document.write(cadena)
+      myWindow.document.close()
+      myWindow.print()
+      myWindow.close()
+    },
     exportTable () {
       const datacaja = [
         {
@@ -220,7 +238,7 @@ export default {
       ]
 
       const settings = {
-        fileName: 'CajaChica', // Name of the resulting spreadsheet
+        fileName: 'AquaVenturaReg', // Name of the resulting spreadsheet
         extraLength: 5, // A bigger number means that columns will be wider
         writeOptions: {} // Style options from https://github.com/SheetJS/sheetjs#writing-options
       }
