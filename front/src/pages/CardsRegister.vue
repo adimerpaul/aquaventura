@@ -414,7 +414,7 @@ export default {
     days () {
       if (this.card.type === 'REGULARES') {
         // this.card.days = 'LUNES-MIERCOLES'
-        return ['LUNES-MIERCOLES', 'MARTE-JUEVES']
+        return ['MIERCOLES-VIERNES', 'MARTES-JUEVES', 'SABADO-DOMINGO']
       } else {
         // this.card.days = 'MARTES-VIERNES'
         return ['MARTES-VIERNES']
